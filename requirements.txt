@@ -1,6 +1,4 @@
 streamlit
 pandas
 numpy
-urllib.error
-urllib.request
-json
+urllib
