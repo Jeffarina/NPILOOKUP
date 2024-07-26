@@ -151,15 +151,15 @@ try:
                         res_404_df = pd.DataFrame(res_dict_404)
                         res_404_df.columns = [col.upper() for col in res_404_df.columns]
                         res_404_csv = convert_df(res_404_df)
-                        res_404_df_row_count = res_404_df['NPI'].count()
-                        st.download_button(
-                            f"Download {res_404_df_row_count} NPIs Not Found",
-                            res_404_csv,
-                            "NPIs Not Found.csv",
-                            "text/csv",
-                            key='download-res-404-csv'
-                        )
-    
+                        if not res_404_df.empty:
+                            res_404_df_row_count = res_404_df['NPI'].count()
+                            st.download_button(
+                                f"Download {res_404_df_row_count} NPIs Not Found",
+                                res_404_csv,
+                                "NPIs Not Found.csv",
+                                "text/csv",
+                                key='download-res-404-csv'
+                            )
 
                 except ValueError as e:
                     st.error(
