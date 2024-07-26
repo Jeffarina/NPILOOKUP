@@ -73,6 +73,7 @@ def fetch_npi(npi_file):
     pivot_end = len(npis)
     progress_text = "Operation in progress. Please wait."
     my_bar = st.progress(0, text=progress_text)
+    all_keys = set()
     
     for npi in npis:
         prog_index = int((pivot/pivot_end)*100)
@@ -84,20 +85,27 @@ def fetch_npi(npi_file):
         
         try: 
             json_dict = json_list['results'][0]
-            to_add = {}
-            if not res_dict:
-                res_dict = single_look_up(json_dict)
-            else: 
-                to_add = single_look_up(json_dict)
+            to_add = single_look_up(json_dict)
+            all_keys.update(to_add.keys())
             for key,val in to_add.items():
-                if key in res_dict:
-                    res_dict[key] = [res_dict[key],val]
+                if key not in res_dict:
+                    res_dict[key] = []
+                res_dict[key].append(value)
 
         except(IndexError):
             res_dict_404.append(npi)
+            
+    # Ensure all keys are present in res_dict and fill missing values with empty strings
+    for key in all_keys:
+        if key not in res_dict:
+            res_dict[key] = [''] * len(npis)
+        else:
+            while len(res_dict[key]) < len(npis):
+                res_dict[key].append('')
 
     my_bar.empty()
     return res_dict, res_dict_404
+
 
 # Main
 try: 
