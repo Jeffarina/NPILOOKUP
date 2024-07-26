@@ -129,6 +129,8 @@ try:
                     time.sleep(5) #<- dummy wait for demo. 
                 try: 
                     data = pd.read_csv(uploaded_file, dtype={'NPI': str})
+                    row_count = data['NPI'].count()
+                    st.write(f"File contains {row_count} NPIs")
                     preview_dataframe(data)
                     b = st.button('Generate', type='primary')
                     st.subheader("Output")
@@ -138,8 +140,9 @@ try:
                         res_df.columns = [col.upper() for col in res_df.columns]
                         preview_dataframe(res_df)
                         res_csv = convert_df(res_df)
+                        res_df_row_count = res_df['NPI'].count()
                         st.download_button(
-                            "Download NPIs Found",
+                            f"Download {res_df_row_count} NPIs Found",
                             res_csv,
                             "NPIs Found.csv",
                             "text/csv",
@@ -148,13 +151,15 @@ try:
                         res_404_df = pd.DataFrame(res_dict_404)
                         res_404_df.columns = [col.upper() for col in res_404_df.columns]
                         res_404_csv = convert_df(res_404_df)
+                        res_404_df_row_count = res_404_df['NPI'].count()
                         st.download_button(
-                            "Download NPIs Not Found",
+                            f"Download {res_404_df_row_count} NPIs Not Found",
                             res_404_csv,
                             "NPIs Not Found.csv",
                             "text/csv",
                             key='download-res-404-csv'
                         )
+    
 
                 except ValueError as e:
                     st.error(
