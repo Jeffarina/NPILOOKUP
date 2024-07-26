@@ -90,7 +90,7 @@ def fetch_npi(npi_file):
             for key,val in to_add.items():
                 if key not in res_dict:
                     res_dict[key] = []
-                res_dict[key].append(value)
+                res_dict[key].append(val)
 
         except(IndexError):
             res_dict_404.append(npi)
