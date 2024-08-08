@@ -84,7 +84,7 @@ def fetch_npi(npi_file, selected_attributes, single_address):
     my_bar = st.progress(0, text=progress_text)
     all_keys = set()
 
-   for npi in npis:
+    for npi in npis:
         prog_index = int((pivot / pivot_end) * 100)
         my_bar.progress(prog_index, text=f"Operation in progress. Please wait: {prog_index}%")
         pivot += 1
