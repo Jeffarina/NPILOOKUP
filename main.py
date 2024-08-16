@@ -160,7 +160,7 @@ try:
                 st.subheader("Output")
                 if b:
                     res_dict_result, res_dict_404_result = fetch_npi(data, attributes, single_address_flag)
-                    res_df = pd.DataFrame(res_dict_result, columns=['NPI'])
+                    res_df = pd.DataFrame(res_dict_result)
                     res_df.columns = [col.upper() for col in res_df.columns]
                     preview_dataframe(res_df)
                     res_csv = convert_df(res_df)
@@ -172,7 +172,7 @@ try:
                         "text/csv",
                         key='download-res-csv'
                     )
-                    res_404_df = pd.DataFrame(res_dict_404_result)
+                    res_404_df = pd.DataFrame(res_dict_404_result, columns=['NPI'])
                     res_404_df.columns = [col.upper() for col in res_404_df.columns]
                     res_404_csv = convert_df(res_404_df)
                     if not res_404_df.empty:
