@@ -172,6 +172,7 @@ try:
                     res_dict_result, res_dict_404_result = fetch_npi(data, attributes, single_address_flag)
                     res_df = pd.DataFrame(res_dict_result)
                     res_df.columns = [col.upper() for col in res_df.columns]
+                    res_df = res_df.dropna(subset=['NPI'])
                     preview_dataframe(res_df)
                     res_csv = convert_df(res_df)
                     res_df_row_count = res_df['NPI'].count()
