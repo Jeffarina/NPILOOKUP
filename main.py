@@ -151,9 +151,19 @@ try:
                 single_address_flag = address_option == "Single address per NPI"
 
                 # Multi-select for attributes
-                attributes = st.multiselect(
-                    "Select attributes to include",
-                    ['NPI', 'ZIP', 'LICENSE_STATE', 'first_name', 'middle_name', 'last_name', 'credential', 'status', 'code', 'desc', 'license', 'state', 'primary', 'address_1', 'city', 'telephone_number', 'primary_address_1', 'primary_city', 'primary_state', 'primary_zip', 'secondary_address_1', 'secondary_city', 'secondary_state', 'secondary_zip']
+                # Define attributes based on the address option
+                attributes_single_address = ['NPI', 'ZIP', 'LICENSE_STATE', 'first_name', 'middle_name', 'last_name', 'credential', 'status', 'code', 'desc', 'license', 'address_1', 'city', 'state']
+                attributes_multiple_addresses = ['NPI', 'LICENSE_STATE', 'first_name', 'middle_name', 'last_name', 'credential', 'status', 'code', 'desc', 'license', 'primary_address_1', 'primary_city', 'primary_state', 'primary_zip', 'secondary_address_1', 'secondary_city', 'secondary_state', 'secondary_zip']
+
+                # Conditional display of attributes
+                if single_address_flag:
+                    attributes = st.multiselect(
+                        "Select attributes to include",
+                        attributes_single_address)
+                else:
+                        attributes = st.multiselect(
+                            "Select attributes to include",
+                            attributes_multiple_addresses
                 )
 
                 b = st.button('Generate', type='primary')
