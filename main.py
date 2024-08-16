@@ -140,7 +140,7 @@ try:
             try:
                 data = pd.read_csv(uploaded_file, dtype={'NPI': str})
                 row_count = data['NPI'].count()
-                st.write(f"File contains {row_count} NPIs")
+                st.write(f"File contains {row_count} NPIs (Preview)")
                 preview_dataframe(data)
 
                 # Dropdown for address option
