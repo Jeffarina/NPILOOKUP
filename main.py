@@ -29,7 +29,7 @@ def convert_df(df):
 
 # Create a function to preview a DataFrame
 def preview_dataframe(df):
-    st.write(df.head())
+    st.write(df.head(100))
 
 
 # Extract selective keys' values [ Including Nested Keys ]
@@ -150,7 +150,6 @@ try:
                 )
                 single_address_flag = address_option == "Single address per NPI"
 
-                # Multi-select for attributes
                 # Define attributes based on the address option
                 attributes_single_address = ['NPI', 'ZIP', 'LICENSE_STATE', 'first_name', 'middle_name', 'last_name', 'credential', 'status', 'code', 'desc', 'license', 'address_1', 'city', 'state']
                 attributes_multiple_addresses = ['NPI', 'LICENSE_STATE', 'first_name', 'middle_name', 'last_name', 'credential', 'status', 'code', 'desc', 'license', 'primary_address_1', 'primary_city', 'primary_state', 'primary_zip', 'secondary_address_1', 'secondary_city', 'secondary_state', 'secondary_zip']
@@ -159,12 +158,13 @@ try:
                 if single_address_flag:
                     attributes = st.multiselect(
                         "Select attributes to include",
-                        attributes_single_address)
+                        attributes_single_address,
+                        default=attributes_single_address)
                 else:
-                        attributes = st.multiselect(
-                            "Select attributes to include",
-                            attributes_multiple_addresses
-                )
+                    attributes = st.multiselect(
+                        "Select attributes to include",
+                        attributes_multiple_addresses,
+                        default=attributes_multiple_addresses)
 
                 b = st.button('Generate', type='primary')
                 st.subheader("Output")
@@ -173,7 +173,6 @@ try:
                     res_df = pd.DataFrame(res_dict_result)
                     res_df.columns = [col.upper() for col in res_df.columns]
                     res_df = res_df.dropna(subset=['NPI'])
-                    st.write(f"NPI Tool Result Preview")
                     preview_dataframe(res_df)
                     res_csv = convert_df(res_df)
                     res_df_row_count = res_df['NPI'].count()
@@ -189,6 +188,7 @@ try:
                     res_404_csv = convert_df(res_404_df)
                     if not res_404_df.empty:
                         res_404_df_row_count = res_404_df['NPI'].count()
+                        preview_dataframe(res_404_df)
                         st.download_button(
                             f"Download {res_404_df_row_count} NPIs Not Found",
                             res_404_csv,
@@ -212,7 +212,3 @@ except URLError as e:
     """
         % e.reason
     )
-
- 
-
- 
